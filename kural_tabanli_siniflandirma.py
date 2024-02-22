@@ -44,16 +44,6 @@
 # 3  BRA_ANDROID_FEMALE_31_40   233.166667       C
 # 4  BRA_ANDROID_FEMALE_41_66   236.666667       C
 
-
-#############################################
-# PROJE GÖREVLERİ
-#############################################
-
-#############################################
-# GÖREV 1: Aşağıdaki soruları yanıtlayınız.
-#############################################
-
-# Soru 1: persona.csv dosyasını okutunuz ve veri seti ile ilgili genel bilgileri gösteriniz.
 import pandas as pd
 
 
@@ -94,50 +84,36 @@ df.groupby("SOURCE").agg({"PRICE": "mean"})
 df.groupby(["COUNTRY","SOURCE"]).agg({"PRICE": "mean"})
 
 #############################################
-# GÖREV 2: COUNTRY, SOURCE, SEX, AGE kırılımında ortalama kazançlar nedir?
+# COUNTRY, SOURCE, SEX, AGE kırılımında ortalama kazançlar nedir?
 #############################################
 x = df.groupby(["COUNTRY","SOURCE","SEX","AGE"]).agg({"PRICE": "mean"})
 
 #############################################
-# GÖREV 3: Çıktıyı PRICE'a göre sıralayınız.
+# Çıktıyı PRICE'a göre sıralayınız.
 #############################################
-# Önceki sorudaki çıktıyı daha iyi görebilmek için sort_values metodunu azalan olacak şekilde PRICE'a uygulayınız.
-# Çıktıyı agg_df olarak kaydediniz.
+
 agg_df = x.sort_values(by="PRICE", ascending=False)
 agg_df.head()
 
 #############################################
-# GÖREV 4: Indekste yer alan isimleri değişken ismine çeviriniz.
+# Indekste yer alan isimleri değişken ismine çeviriniz.
 #############################################
-# Üçüncü sorunun çıktısında yer alan PRICE dışındaki tüm değişkenler index isimleridir.
-# Bu isimleri değişken isimlerine çeviriniz.
-# İpucu: reset_index()
 
 agg_df.reset_index()
 agg_df
 
 
 #############################################
-# GÖREV 5: AGE değişkenini kategorik değişkene çeviriniz ve agg_df'e ekleyiniz.
+# AGE değişkenini kategorik değişkene çeviriniz ve agg_df'e ekleyiniz.
 #############################################
-# Age sayısal değişkenini kategorik değişkene çeviriniz.
-# Aralıkları ikna edici olacağını düşündüğünüz şekilde oluşturunuz.
-# Örneğin: '0_18', '19_23', '24_30', '31_40', '41_70'
-
 
 agg_df["AGE_CAT"] = pd.cut(agg_df["AGE"], [0, 19, 24, 31, 41, 70],
                            labels=["0_18", "19_23", "24_30", "31_40", "41_70"], right=False)
 agg_df.head()
 
 #############################################
-# GÖREV 6: Yeni level based müşterileri tanımlayınız ve veri setine değişken olarak ekleyiniz.
+# Yeni level based müşterileri tanımlayınız ve veri setine değişken olarak ekleyiniz.
 #############################################
-# customers_level_based adında bir değişken tanımlayınız ve veri setine bu değişkeni ekleyiniz.
-# Dikkat!
-# list comp ile customers_level_based değerleri oluşturulduktan sonra bu değerlerin tekilleştirilmesi gerekmektedir.
-# Örneğin birden fazla şu ifadeden olabilir: USA_ANDROID_MALE_0_18
-# Bunları groupby'a alıp price ortalamalarını almak gerekmektedir.
-
 
 def combine_columns(row):
     return (row['COUNTRY'].upper() + "_" +
@@ -155,11 +131,8 @@ agg_df.head()
 
 
 #############################################
-# GÖREV 7: Yeni müşterileri (USA_ANDROID_MALE_0_18) segmentlere ayırınız.
+# Yeni müşterileri (USA_ANDROID_MALE_0_18) segmentlere ayırınız.
 #############################################
-# PRICE'a göre segmentlere ayırınız,
-# segmentleri "SEGMENT" isimlendirmesi ile agg_df'e ekleyiniz,
-# segmentleri betimleyiniz,
 
 agg_df["SEGMENT"]= pd.qcut(agg_df['PRICE'], 4 , labels = ["D","C","B","A"])
 agg_df.head()
@@ -167,7 +140,7 @@ agg_df.groupby(["SEGMENT"]).agg({"PRICE": ["mean","max","sum"]})
 
 
 #############################################
-# GÖREV 8: Yeni gelen müşterileri sınıflandırınız ne kadar gelir getirebileceğini tahmin ediniz.
+# Yeni gelen müşterileri sınıflandırınız ne kadar gelir getirebileceğini tahmin ediniz.
 #############################################
 # 33 yaşında ANDROID kullanan bir Türk kadını hangi segmente aittir ve ortalama ne kadar gelir kazandırması beklenir?
 
